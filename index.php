@@ -6,11 +6,11 @@ if(isset($_POST['login'])) {
 	$username = isset($_POST['username']) ? clear($_POST['username']) : false;
 	$password = isset($_POST['password']) ? clear($_POST['password']) : false;
 	if(empty($username) || empty($password)) {
-		echo 'Riempi tutti i campi.<br /><br /><a href="javascript:history.back();">Indietro</a>';
+		print 'Riempi tutti i campi.<br /><br /><a href="javascript:history.back();">Indietro</a>';
 	} elseif(mysql_num_rows(mysql_query("SELECT * FROM users WHERE username LIKE '$username'")) == 0) {
-		echo 'Username non trovato.<br /><br /><a href="javascript:history.back();">Indietro</a>';
+		print 'Username non trovato.<br /><br /><a href="javascript:history.back();">Indietro</a>';
 	} elseif(mysql_num_rows(mysql_query("SELECT * FROM users WHERE password LIKE '$password'")) == 0) {
-				echo 'Password non trovata.<br /><br /><a href="javascript:history.back();">Indietro</a>';
+				print 'Password non trovata.<br /><br /><a href="javascript:history.back();">Indietro</a>';
 	} else {
 		$ip = $_SERVER['REMOTE_ADDR'];
 		if(mysql_num_rows(mysql_query("SELECT * FROM users WHERE username LIKE '$username' AND password='$password'")) > 0) {

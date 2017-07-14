@@ -2,9 +2,7 @@
 	header( 'content-type: text/html; charset=utf-8' );
 	extract($_POST);
 	$dbConn = new mysqli("localhost", "madbinc", "futrinervi46","my_madbinc");
-	if (!$dbConn) {
-		die("Impossibile connettersi: " . mysql_error());
-	}
+	
 	$dbConn->set_charset("utf8");
 	$output1="";
 	$esitoOp = "";
@@ -12,9 +10,7 @@
 	
 	$cm = $_SESSION["cm"];
 	$risultato1= $dbConn->query("SELECT codice_sensore, marca_sensore, valore, codice_errore, tipo FROM elenco_sensori WHERE codice_sens = '$cm';");
-	if(!$risultato1){
-		die("Impossibile eseguire la query: " . mysql_error());
-	}
+	
 	while(($row1 = $risultato1->fetch_assoc()) != NULL){
 		$output1.="<tr>";
 		$output1.="<td> <input type=\"radio\" name=\"scelta1\" value=\"$row1[codice_opera]\"> </td>";
@@ -31,9 +27,7 @@
 	elseif(isset($elimina_opera)) {
 		$codice_opera=$scelta1;
 		$risultato2= $dbConn->query("DELETE FROM elenco_sensori WHERE codice_sensore = '$codice_opera';");
-		if(!$risultato2){
-			die("Impossibile eseguire la query: " . mysql_error());
-		}
+		
 		$esitoOp="<p>Opera eliminata</p>";
 		header("Location: Gestione-Opere.php");
 	} elseif(isset($modifica_opera)) {
