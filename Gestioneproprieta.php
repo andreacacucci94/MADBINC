@@ -2,18 +2,14 @@
 	header( 'content-type: text/html; charset=utf-8' );
 	extract($_POST);
 	$dbConn = new mysqli("localhost", "madbinc", "futrinervi46","my_madbinc");
-	if (!$dbConn) {
-		die("Impossibile connettersi: " . mysql_error());
-	}
+	
 	$dbConn->set_charset("utf8");
 	$output="";
 	$esitoOp = "";
 	session_start();
 	
 	$risultato= $dbConn->query("SELECT codice_proprieta,nome,citta FROM elenco_proprieta;");
-	if(!$risultato){
-		die("Impossibile eseguire la query: " . mysql_error());
-	}
+	
 	while(($row = $risultato->fetch_assoc()) != NULL){
 		$output.="<tr>";
 		$output.="<td> <input type=\"radio\" name=\"scelta\" value=\"$row[codice_proprieta]\"> </td>";
@@ -35,12 +31,7 @@
 		$codice_museo=$scelta;
 		$risultato2= $dbConn->query("DELETE FROM elenco_sensori WHERE codice_propieta = '$codice_proprieta';");
 		$risultato3= $dbConn->query("DELETE FROM elenco_proprieta WHERE codice_proprieta = '$codice_proprieta';");
-		if(!$risultato2){
-			die("Impossibile eseguire la query: " . mysql_error());
-		}
-		if(!$risultato3){
-			die("Impossibile eseguire la query: " . mysql_error());
-		}
+		
 		$esitoOp="<h6>Museo eliminato</h6>";
 		header("Location: gestioneproprieta_admin.php");
 	} elseif(isset($modifica_proprieta)) {

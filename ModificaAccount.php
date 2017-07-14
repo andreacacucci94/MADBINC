@@ -1,9 +1,7 @@
 <?php
 	extract($_POST);
 	$dbConn = new mysqli("localhost", "madbinc", "futrinervi46","my_madbinc");
-	if (!$dbConn) {
-		die("Impossibile connettersi: " . mysql_error());
-	}
+	
 	$output="";
 	$flag = false;
 	$esito = "";
@@ -11,9 +9,7 @@
 	session_start();
 	
 	$risultato= $dbConn->query("SELECT id, username, password, email FROM users WHERE tipo = '0';");
-	if(!$risultato){
-		die("Impossibile eseguire la query: " . mysql_error());
-	}
+	
 	while(($row = $risultato->fetch_assoc()) != NULL){
 		$output.="<tr>";
 		$output.="<td> <input type=\"radio\" name=\"scelta\" value=\"$row[id]\"> </td>";
@@ -25,9 +21,7 @@
 	if(isset($elimina_account)) {
 		$codice_account=$scelta;
 		$risultato1= $dbConn->query("DELETE FROM users WHERE id = '$codice_account';");
-		if(!$risultato1){
-			die("Impossibile eseguire la query: " . mysql_error());
-		}
+		
 		$esito="<p>Account Eliminato</p>";
 		header("Location: ModificaAccount.php");
 	} elseif(isset($modifica)) {
@@ -35,9 +29,7 @@
 		$co_ac = $scelta;
 		$_SESSION["ca"]=$co_ac;
 		$risultato2= $dbConn->query("SELECT username, password, email FROM users WHERE id='$co_ac';");
-		if(!$risultato2){
-			die("Impossibile eseguire la query: " . mysql_error());
-		}
+		
 		$row1 = $risultato2->fetch_assoc();
 		$username = $row1['username']; $password = $row1['password']; $email = $row1['email'];
 	}
@@ -48,17 +40,13 @@
 			} else {
 				$username1 = $_POST['username']; $password1 = $_POST['password']; $email1 = $_POST['email'];
 				$risultato3= $dbConn->query("UPDATE users SET username='$username1', password = '$password1', email = '$email1' WHERE id = '$ident';");
-				if(!$risultato3){
-					die("Impossibile eseguire la query: " . mysql_error());
-				}
 				$esito="<p>Modifiche salvate</p>";
 				$risultato2= $dbConn->query("SELECT username, password, email FROM users WHERE id='$ident';");
 				if(!$risultato2){
-					die("Impossibile eseguire la query: " . mysql_error());
-				}
+					
 				$row1 = $risultato2->fetch_assoc();
 				$username = $row1['username']; $password = $row1['password']; $email = $row1['email'];
-			}
+		
 	}elseif(isset($annulla)){
 		$username = "";$password="";$email="";
 	} 
